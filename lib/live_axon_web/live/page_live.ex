@@ -3,7 +3,7 @@ defmodule LiveAxonWeb.PageLive do
   require Axon
 
   @impl true
-  def mount(_,_,socket) do
+  def mount(_, _, socket) do
     {:ok, socket |> assign(ans: nil)}
   end
 
@@ -24,6 +24,7 @@ defmodule LiveAxonWeb.PageLive do
       |> convert_image_data_to_tensor()
       |> convert_mnist_predict_data()
       |> predict()
+
     {:noreply, assign(socket, :ans, ans)}
   end
 
@@ -32,19 +33,20 @@ defmodule LiveAxonWeb.PageLive do
     |> Map.to_list()
     |> Enum.map(fn {k, v} -> {String.to_integer(k), v} end)
     |> Enum.sort()
-    |> Enum.map(fn {_k, v} ->  v end)
+    |> Enum.map(fn {_k, v} -> v end)
     |> Nx.tensor()
   end
 
   def convert_mnist_predict_data(pixel) do
     {row} = Nx.shape(pixel)
+
     pixel
     |> Nx.reshape({div(row, 4), 4})
     |> Nx.slice_along_axis(0, 3, axis: 1)
     |> Nx.mean(axes: [-1])
     |> Nx.round()
     |> Nx.reshape({1, 784})
-    |> tap(& &1 |> Nx.reshape({28,28})|> Nx.to_heatmap() |> IO.inspect())
+    |> tap(&(&1 |> Nx.reshape({28, 28}) |> Nx.to_heatmap() |> IO.inspect()))
     |> Nx.divide(255.0)
   end
 
