@@ -1,0 +1,16 @@
+<div id="mnist" phx-hook="Mnist" class="row">
+  <div class="column column-25">
+    <h1>Actions</h1>
+    <dl>
+      <dt><button class="button" phx-click="predict">Predict</button></dt>
+      <dt><button class="button" phx-click="clear">Clear</button></dt>
+    </dl>
+    <%= if @ans do %>
+      <h1>Answer:<%= @ans %></h1>
+    <% end %>
+  </div>
+  <div class="column">
+    <canvas id="canvas" phx-update="ignore"></canvas>
+    <canvas id="canvas2" style="visibility:hidden"></canvas>
+  </div>
+</div>
