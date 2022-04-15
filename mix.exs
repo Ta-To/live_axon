@@ -62,6 +62,7 @@ defmodule LiveAxon.MixProject do
   defp aliases do
     [
       setup: ["deps.get"],
+      train: ["run priv/train/mnist.exs"],
       "assets.deploy": ["esbuild default --minify", "phx.digest"]
     ]
   end
